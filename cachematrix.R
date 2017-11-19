@@ -1,5 +1,5 @@
 ## A pair of functions which allow the caller to save time by caching the
-## inverse of a matrix.
+## inverse of a square 2D matrix.
 ##
 ## First call makeCacheMatrix() with a matrix argument to get a special
 ## 'matrix' object; then call cacheSolve() with the object as its argument to
@@ -8,9 +8,18 @@
 ## inverse.
 
 ## Return a special 'matrix' object: a list of functions allowing a caller
-## to set/get the matrix value and set/get the matrix inverse.
+## to set/get the matrix value and set/get the matrix inverse. If x is not a
+## square 2D matrix return NA.
 makeCacheMatrix <- function(x = matrix()) {
 
+  ## Fail gracefully for non-square, non-2D matrices.
+  dim_x <- dim(x)
+  dims <- length(dim_x)
+  if((dims != 2) || (dim_x[1] != dim_x[2])) {
+    message("matrix is not square 2D - returning NA")
+    return(NA)
+  }
+  
   ## Clear cached matrix inverse when object is created.
   i <- NULL
   
